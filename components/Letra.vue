@@ -14,7 +14,7 @@ const base = import.meta.env.BASE_URL
     <div class="letra-header">
       <span class="letra-badge">📝 Letra de parcial</span>
       <span class="letra-meta">{{ parcial }}<template v-if="ejercicio"> · {{ ejercicio }}</template></span>
-      <a v-if="pdf" :href="base + pdf.replace(/^\//, '')" target="_blank" class="letra-pdf">PDF ↗</a>
+      <a v-if="pdf" :href="base + pdf.replace(/^\//, '')" target="_blank" class="letra-pdf">Original ↗</a>
     </div>
     <div class="letra-body">
       <slot />

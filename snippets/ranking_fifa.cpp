@@ -10,10 +10,10 @@ public:
         cantidad = 0;
     }
 
-    void agregarPais(string nombrePais) {               // O(1) pc (pre: el país es nuevo)
+    void agregarPais(string nombrePais) {               // O(1) cp
         cantidad++;
         ranking[cantidad] = nombrePais;
-        posiciones->insertAlPrincipio(nombrePais, cantidad); // sin buscar duplicados
+        posiciones->insert(nombrePais, cantidad);
     }
 
     int posicionRanking(string nombrePais) {            // O(1) cp
