@@ -370,7 +370,7 @@ zoom: 0.9
 
 # 📁 Parcial octubre 2019 · Proyectos
 
-<Letra parcial="Parcial · 23/10/2019 · Matutino" ejercicio="Ejercicio 2" pdf="/parciales/parcial-2019-10-matutino.doc">
+<Letra parcial="Parcial · 23/10/2019 · Matutino" ejercicio="Ejercicio 2" pdf="/parciales/parcial-2019-10-matutino.pdf">
 
 Se solicita realizar un sistema de gestión de proyectos que resuelven problemas en una empresa. Los proyectos tienen un **nombre** (se asume único ✏️), una **prioridad**, un **costo** y un **encargado**. Se requieren las siguientes operaciones:
 
@@ -578,6 +578,6 @@ zoom: 0.88
 
 <div class="mt-4 text-sm">
 
-📄 Letras completas: <PdfLink href="/parciales/parcial-2019-10-matutino.doc">parcial octubre 2019</PdfLink> · <PdfLink href="/parciales/parcial-2026-05-matutino.pdf">parcial mayo 2026</PdfLink>
+📄 Letras completas: <PdfLink href="/parciales/parcial-2019-10-matutino.pdf">parcial octubre 2019</PdfLink> · <PdfLink href="/parciales/parcial-2026-05-matutino.pdf">parcial mayo 2026</PdfLink>
 
 </div>
