@@ -312,14 +312,18 @@ Esa **redundancia** es lo que hace rápidas a las consultas. Pero tiene un costo
 Los **objetos** se crean **una vez**, y cada estructura guarda solo un **puntero**: se repiten las claves, no los datos.
 
 <div class="grid grid-cols-[2fr_3fr] gap-6 items-center">
-<div>
+<div class="flex flex-col gap-2">
 
-```mermaid
-flowchart LR
-  H["Hash<br/>nombre → *"] --> O[("Objeto")]
-  A["AVL<br/>por fecha"] --> O
-  P["Heap<br/>por prioridad"] --> O
-```
+<Estructura nombre="porNombre" tipo="hash"><Ref c="#f59e0b">Web</Ref> <Ref c="#3b82f6">App</Ref></Estructura>
+<Estructura nombre="porCosto" tipo="AVL"><Ref c="#3b82f6">App</Ref> <Ref c="#f59e0b">Web</Ref></Estructura>
+<Estructura nombre="pendientes" tipo="heap"><Ref c="#f59e0b">Web</Ref> <Ref c="#3b82f6">App</Ref></Estructura>
+
+<div class="flex gap-2 mt-1">
+<Obj c="#f59e0b" titulo="Web" :campos="['prioridad 9', 'costo 50']" />
+<Obj c="#3b82f6" titulo="App" :campos="['prioridad 7', 'costo 20']" />
+</div>
+
+<div class="text-xs opacity-70">mismo color = puntero al mismo objeto</div>
 
 </div>
 <div>
@@ -341,11 +345,20 @@ flowchart LR
 
 Lo que hicimos en el Ranking FIFA aparece seguido: **hash `T → int`** + **array `int → T`**.
 
-```mermaid {scale: 0.9}
-flowchart LR
-  T["T<br/>(ej: país)"] -- hash --> I["int<br/>(ej: posición)"]
-  I -- array --> T
-```
+<div class="flex gap-6 items-start">
+<Estructura nombre="array" tipo="int → T">
+<MiniArray :celdas="[{i:'1',r:{t:'Argentina',c:'#f59e0b'}},{i:'2',r:{t:'Francia',c:'#3b82f6'}},{i:'3',r:{t:'España',c:'#10b981'}}]" />
+</Estructura>
+<Estructura nombre="hash" tipo="T → int">
+<table class="tmini"><tr><td>"España"</td><td>→ 3</td></tr><tr><td>"Argentina"</td><td>→ 1</td></tr><tr><td>"Francia"</td><td>→ 2</td></tr></table>
+</Estructura>
+</div>
+
+<style>
+.tmini { border-collapse: collapse; font-size: 0.68rem; font-family: monospace; }
+.tmini td { border: 1px solid rgba(128,128,128,.35); padding: 0.1rem 0.4rem; }
+</style>
+
 
 <v-clicks>
 
@@ -391,9 +404,6 @@ Se solicita realizar un sistema de gestión de proyectos que resuelven problemas
 
 # 📁 Operaciones → preguntas → estructuras
 
-<div class="grid grid-cols-[3fr_2fr] gap-6">
-<div>
-
 <v-clicks>
 
 - **2) los K más prioritarios** → **max-heap** de proyectos **sin ejecutar**, por prioridad
@@ -403,22 +413,46 @@ Se solicita realizar un sistema de gestión de proyectos que resuelven problemas
 
 </v-clicks>
 
-</div>
-<div v-click>
-
-```mermaid
-flowchart TB
-  H["pendientes<br/>max-heap"] --> P[("Proyecto")]
-  A["porCosto<br/>AVL"] --> P
-  E["encargados<br/>hash"] --> En[("Encargado")] -- lista --> P
-```
-
-</div>
-</div>
-
 <v-click>
 
 > ⚠️ Ojo con **qué es n**: en la operación 2 son los proyectos **sin ejecutar**; en la 3, **todos**. Por eso el heap y el AVL no guardan lo mismo.
+
+</v-click>
+
+---
+zoom: 1.15
+---
+
+# 📁 Cómo queda en memoria
+
+<div class="grid grid-cols-3 gap-3">
+
+<Estructura nombre="pendientes" tipo="max-heap por prioridad">
+<MiniArbol :ancho="200" :nodos="[{t:'9 · Web',c:'#f59e0b'},{t:'7 · App',c:'#3b82f6'},{t:'4 · BD',c:'#10b981'}]" />
+</Estructura>
+
+<Estructura nombre="porCosto" tipo="AVL por costo">
+<MiniArbol :ancho="200" :nodos="[{t:'50 · Web',c:'#f59e0b'},{t:'20 · App',c:'#3b82f6'},{t:'80 · BD',c:'#10b981'}]" />
+</Estructura>
+
+<Estructura nombre="encargados" tipo="hash: nombre → Encargado">
+<MiniHash :filas="[{b:0,k:'Ana',refs:[{t:'Web',c:'#f59e0b'},{t:'App',c:'#3b82f6'}]},{b:3,k:'Beto',refs:[{t:'BD',c:'#10b981'}]}]" />
+<div class="text-xs opacity-70 mt-1">cada encargado guarda su lista de proyectos</div>
+</Estructura>
+
+</div>
+
+<div class="flex justify-center gap-4 mt-4">
+<Obj c="#f59e0b" titulo="Web" :campos="['prioridad 9', 'costo 50', 'encargado Ana']" />
+<Obj c="#3b82f6" titulo="App" :campos="['prioridad 7', 'costo 20', 'encargado Ana']" />
+<Obj c="#10b981" titulo="BD" :campos="['prioridad 4', 'costo 80', 'encargado Beto']" />
+</div>
+
+<div class="text-center text-xs opacity-70 mt-2">mismo color = puntero al mismo objeto · cada proyecto existe una sola vez</div>
+
+<v-click>
+
+> Al **ejecutar** Web: sale del heap (`pop`), pero **sigue** en el AVL y en la lista de Ana, porque el listado (operación 3) muestra **todos** los proyectos.
 
 </v-click>
 
@@ -487,27 +521,11 @@ Se quiere que la aplicación responda **cuántas copias** tiene el coleccionista
 
 # 🃏 Un índice por criterio
 
-<div class="grid grid-cols-2 gap-6 items-center">
-<div>
-
 | se pregunta por... | estructura |
 | --- | --- |
 | nombre + apellido | <span v-click>hash `string → Figurita*`</span> |
 | número (**0..1023** 👀) | <span v-click>**array** `Figurita*[1024]`</span> |
 | nacionalidad + camiseta | <span v-click>hash `string → Figurita*`</span> |
-
-</div>
-<div v-click>
-
-```mermaid
-flowchart LR
-  N["porNumero[1024]"] --> F[("Figurita<br/>cantidad = 3")]
-  J["porJugador<br/>'Lionel|Messi'"] --> F
-  C["porCamiseta<br/>'ARG#10'"] --> F
-```
-
-</div>
-</div>
 
 <v-clicks>
 
@@ -515,6 +533,40 @@ flowchart LR
 - **Clave compuesta** con **separador**: sin él, `"Ana" + "Maria Lopez"` y `"Ana Maria" + "Lopez"` dan la misma clave.
 
 </v-clicks>
+
+---
+zoom: 1.15
+---
+
+# 🃏 Cómo queda en memoria
+
+<div class="flex flex-col gap-3">
+
+<Estructura nombre="porNumero" tipo="array de 1024 punteros">
+<MiniArray :celdas="[{i:'0'},{i:'…'},{i:'245',r:{t:'Messi',c:'#f59e0b'}},{i:'…'},{i:'512',r:{t:'Suárez',c:'#3b82f6'}},{i:'…'},{i:'1023'}]" />
+</Estructura>
+
+<div class="grid grid-cols-2 gap-3">
+<Estructura nombre="porJugador" tipo="hash: nombre|apellido → Figurita">
+<MiniHash :filas="[{b:1,k:'Lionel|Messi',refs:[{t:'Messi',c:'#f59e0b'}]},{b:4,k:'Luis|Suárez',refs:[{t:'Suárez',c:'#3b82f6'}]}]" />
+</Estructura>
+<Estructura nombre="porCamiseta" tipo="hash: nacionalidad#camiseta → Figurita">
+<MiniHash :filas="[{b:0,k:'URU#9',refs:[{t:'Suárez',c:'#3b82f6'}]},{b:2,k:'ARG#10',refs:[{t:'Messi',c:'#f59e0b'}]}]" />
+</Estructura>
+</div>
+
+<div class="flex justify-center gap-4">
+<Obj c="#f59e0b" titulo="Messi" :campos="['figurita 245', 'ARG #10', 'cantidad = 3']" />
+<Obj c="#3b82f6" titulo="Suárez" :campos="['figurita 512', 'URU #9', 'cantidad = 1']" />
+</div>
+
+</div>
+
+<v-click>
+
+> `cuantasTengo("Lionel", "Messi")` → `porJugador` → **Messi** → `cantidad = 3`. Si `cambio` hace `cantidad--`, los **tres** índices lo ven, porque apuntan al mismo objeto.
+
+</v-click>
 
 ---
 
