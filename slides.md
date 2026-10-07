@@ -374,7 +374,7 @@ Se solicita realizar un sistema de gestión de proyectos que resuelven problemas
 1. **Agregar un proyecto.** Dados los datos de un proyecto, se desea agregarlo al sistema para su futura ejecución. **O(log n) peor caso**, n = cantidad total de proyectos.
 2. **Ejecutar proyectos.** Ejecutar, a lo sumo, los **K proyectos más prioritarios** siempre que la suma de costos no supere un presupuesto **D**. Si el siguiente proyecto no entra en el presupuesto, se detiene. Retorna los nombres de los proyectos ejecutados. **O(K · log n) peor caso**, n = proyectos sin ejecutar.
 3. **Listado de proyectos y encargados.** Listar los nombres de los proyectos con sus encargados, **ordenado por costo**. **O(n) peor caso**, n = cantidad total de proyectos.
-4. **Proyectos de un encargado.** Dado el nombre de un encargado (se asume único), retornar la lista de sus proyectos. **O(1) caso promedio**.
+4. **Proyectos de un encargado.** Dado el nombre de un encargado (se asume único), retornar la lista de sus proyectos. No se pide recorrerla: se devuelve directamente la lista que ya está guardada. **O(1) caso promedio**.
 
 **Se solicita:** realizar un boceto de la solución y justificar los tiempos; indicar en C++ los tipos de las estructuras elegidas; implementar la operación 2: `retornoNombres ejecutarKProyectosMasPrioritarios(int K, int D)`.
 
