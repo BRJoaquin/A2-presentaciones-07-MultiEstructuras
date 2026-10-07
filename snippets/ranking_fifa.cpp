@@ -32,7 +32,7 @@ public:
         // 1) swap en el array
         ranking[pos - 1] = paisRetador;
         ranking[pos] = paisRetado;
-        // 2) mantener el invariante: posiciones[ranking[i]] == i
+        // 2) actualizar la copia redundante: posiciones[ranking[i]] == i
         posiciones->update(paisRetador, pos - 1);
         posiciones->update(paisRetado, pos);
     }

@@ -126,42 +126,63 @@ Entonces... ¿por qué elegir una sola? 💡
 
 # Repaso de costos
 
-| | buscar | insertar | eliminar | ver máx | sacar máx | listar ordenado |
-| --- | --- | --- | --- | --- | --- | --- |
-| **Array indexado** (clave 0..K) | O(1) | O(1) | O(1) | O(K) | O(K) | O(K) |
-| **Lista** | O(N) | O(1) | O(N) | O(N) | O(N) | O(N log N) |
-| **AVL** | O(log N) | O(log N) | O(log N) | O(log N) | O(log N) | **O(N)** |
-| **Heap** | O(N) | O(log N) | O(N) | **O(1)** | O(log N) | O(N log N) |
-| **Hash** | **O(1) cp** | O(1) cp | O(1) cp | O(N) | O(N) | O(N log N) |
+Todo lo que vimos en el curso. Si no se aclara, es peor caso; **cp** = caso promedio.
 
-<br>
+<div class="text-sm">
 
-<v-click>
+| | buscar | insertar | eliminar | mín / máx | listar ordenado |
+| --- | --- | --- | --- | --- | --- |
+| **Array** (por posición) | O(n) · O(1) por posición | O(1) al final | O(n) | O(n) | O(n log n) |
+| **Array indexado** (clave 0..K) | O(1) | O(1) | O(1) | O(K) | O(K) |
+| **Lista** (simple / doble) | O(n) | O(1) al principio | O(n) | O(n) | O(n log n) |
+| **ABB** | O(log n) cp · O(n) | O(log n) cp · O(n) | O(log n) cp · O(n) | O(log n) cp · O(n) | O(n) |
+| **AVL** | O(log n) | O(log n) | O(log n) | O(log n) | **O(n)** |
+| **Heap** (de máx) | O(n) | O(1) cp · O(log n) | sacar el máx: O(log n) | máx: **O(1)** | O(n log n) |
+| **Hash** (abierto / cerrado) | **O(1) cp** · O(n) | O(1) cp · O(n) | O(1) cp · O(n) | O(n) | O(n log n) |
 
-> **cp** = caso promedio. Ojo: en el peor caso, buscar en una tabla de hash es O(N).
-
-</v-click>
+</div>
 
 <!--
-Hacer notar la primera fila: el "array indexado por clave acotada" no siempre se nombra como estructura,
+Hacer notar la fila del "array indexado por clave acotada": no siempre se nombra como estructura,
 pero es muy útil cuando la clave es un entero chico (edad, nota, número de figurita, categoría).
 -->
 
 ---
 
-# Leerla al revés: ¿qué pregunta responde cada una?
+# Repaso de costos: grafos
 
-<div class="grid grid-cols-2 gap-6 mt-4">
+V = vértices · A = aristas
+
+| | ¿existe la arista u→v? | adyacentes de v | agregar arista | memoria | recorrer (BFS / DFS) |
+| --- | --- | --- | --- | --- | --- |
+| **Lista de adyacencia** | O(grado(u)) | O(grado(v)) | O(1) | O(V + A) | O(V + A) |
+| **Matriz de adyacencia** | **O(1)** | O(V) | O(1) | O(V²) | O(V²) |
+
+<br>
+
+<v-click>
+
+Y los algoritmos se apoyan en las otras estructuras: **Dijkstra** y **Prim** usan un **heap**; **Kruskal**, un **MFSet**; el **orden topológico**, una **cola**.
+
+</v-click>
+
+---
+
+# Leerla al revés: ¿qué estructura "suena"?
+
+Una guía para pensar qué estructura puede servir, según lo que pide la letra.
+
+<div class="grid grid-cols-2 gap-x-8 gap-y-1 mt-4">
 <div>
 
 <v-clicks>
 
-- 🔑 **"Dame el elemento con clave X"**
-  → hash (O(1) cp) o AVL (O(log N))
-- 🔢 **"Dame el elemento con clave entera X, chica y acotada"**
-  → array indexado (O(1))
-- 🏆 **"¿Cuál es el más prioritario?"**
-  → heap (O(1))
+- 🔑 **"dado el nombre / código..."** → hash, AVL
+- ❓ **"¿existe X?" / "¿ya lo tengo?"** → hash
+- 🔢 **"un número entre 0 y K"** → array indexado
+- 📍 **"el que está en la posición i"** → array
+- 🏆 **"el más / menos prioritario"** → heap
+- ⏳ **"en orden de llegada"** → cola
 
 </v-clicks>
 
@@ -170,10 +191,12 @@ pero es muy útil cuando la clave es un entero chico (edad, nota, número de fig
 
 <v-clicks>
 
-- 📋 **"Listame todo ordenado por algo"**
-  → AVL ordenado por ese algo (in-order, O(N))
-- 🗂️ **"Dame los de la categoría X"**
-  → array de categorías, y en cada casilla otra estructura
+- 🔙 **"el último que llegó"** → pila
+- 📋 **"listar ordenado por X"** → AVL por X
+- 📏 **"los que están entre A y B"** → AVL
+- 🗂️ **"los de la categoría X"** → array o hash de estructuras
+- 🕸️ **"conexiones", "rutas", "dependencias"** → grafo
+- 🧩 **"¿están en el mismo grupo?"** → MFSet
 
 </v-clicks>
 
@@ -182,9 +205,9 @@ pero es muy útil cuando la clave es un entero chico (edad, nota, número de fig
 
 <v-click>
 
-<div class="mt-6 text-center">
+<div class="mt-6 text-center text-sm opacity-80">
 
-Este es el **diccionario** para traducir una operación de la letra a una estructura.
+No es una regla: es un punto de partida. Después hay que ver los órdenes que pide la letra.
 
 </div>
 
@@ -252,53 +275,27 @@ Es lo mismo que hace una base de datos cuando crea un índice por cada columna q
 
 <v-click>
 
-<div class="mt-6 grid grid-cols-3 gap-4 text-center">
-<div class="p-3 rounded bg-green-500 bg-opacity-10">
-
-**Consultas** ⚡
-
-cada una usa el índice adecuado
-
-</div>
-<div class="p-3 rounded bg-yellow-500 bg-opacity-10">
-
-**Modificaciones** 🐢
-
-tienen que actualizar **todos** los índices
-
-</div>
-<div class="p-3 rounded bg-red-500 bg-opacity-10">
-
-**Memoria** 📦
-
-las **claves** se repiten en cada índice; los **objetos**, no
-
-</div>
-</div>
+> Cada índice es una **copia** de la misma información, organizada para responder rápido a su pregunta. ¿Y eso cuesta algo? 👇
 
 </v-click>
 
 ---
 
-# El invariante: lo que nunca se puede romper
+# Redundancia: necesaria, pero tiene un costo
 
-Si hay varias estructuras, tienen que **decir lo mismo**. Esa regla se llama **invariante**.
+En el Ranking FIFA, **la misma información está guardada dos veces**: el array dice "Uruguay está 6º", y el hash también.
 
 <v-click>
 
-En el Ranking FIFA:
-
-$$
-\forall\, i \in [1, N]: \quad \text{posiciones}[\,\text{ranking}[i]\,] = i
-$$
+Esa **redundancia** es lo que hace rápidas a las consultas. Pero tiene un costo:
 
 </v-click>
 
 <v-clicks>
 
-- Cada operación **asume** que el invariante se cumple al empezar.
-- Cada operación **garantiza** que el invariante se cumple al terminar.
-- `retar` hace swap en el array → **tiene que** actualizar las 2 entradas del hash.
+- 📦 **Memoria**: la información ocupa más lugar.
+- 🐢 **Modificaciones**: cada cambio se tiene que hacer en **todas** las copias. `retar` hace swap en el array → **tiene que** actualizar las 2 entradas del hash.
+- 💥 **Inconsistencia**: si una operación se olvida de actualizar una copia, las estructuras **se contradicen**: `posiciones[ranking[i]]` deja de ser `i`.
 
 </v-clicks>
 
@@ -310,9 +307,9 @@ $$
 
 ---
 
-# No duplicar información: punteros
+# Que la redundancia no crezca: punteros
 
-Los **objetos** se crean **una vez**, y cada estructura guarda un **puntero**.
+Los **objetos** se crean **una vez**, y cada estructura guarda solo un **puntero**: se repiten las claves, no los datos.
 
 <div class="grid grid-cols-[2fr_3fr] gap-6 items-center">
 <div>
@@ -372,16 +369,15 @@ zoom: 0.9
 
 <Letra parcial="Parcial · 23/10/2019 · Matutino" ejercicio="Ejercicio 2" pdf="/parciales/parcial-2019-10-matutino.pdf">
 
-Se solicita realizar un sistema de gestión de proyectos que resuelven problemas en una empresa. Los proyectos tienen un **nombre** (se asume único ✏️), una **prioridad**, un **costo** y un **encargado**. Se requieren las siguientes operaciones:
+Se solicita realizar un sistema de gestión de proyectos que resuelven problemas en una empresa. Los proyectos tienen un **nombre** (se asume único), una **prioridad**, un **costo** y un **encargado**. Se requieren las siguientes operaciones:
 
-1. **Agregar un proyecto.** Dados los datos de un proyecto, se desea agregarlo al sistema para su futura ejecución. **O(log n) peor caso**, n = cantidad total de proyectos ✏️.
-2. **Ejecutar proyectos.** Ejecutar, a lo sumo, los **K proyectos más prioritarios** siempre que la suma de costos no supere un presupuesto **D**. Si el siguiente proyecto no entra en el presupuesto, se detiene ✏️. Retorna los nombres de los proyectos ejecutados. **O(K · log n) peor caso**, n = proyectos sin ejecutar.
-3. **Listado de proyectos y encargados.** Listar los nombres de los proyectos con sus encargados, **ordenado por costo** ✏️. **O(n) peor caso**, n = cantidad total de proyectos.
-4. **Proyectos de un encargado.** Dado el nombre de un encargado (se asume único), retornar la lista de sus proyectos ✏️. **O(1) caso promedio**.
+1. **Agregar un proyecto.** Dados los datos de un proyecto, se desea agregarlo al sistema para su futura ejecución. **O(log n) peor caso**, n = cantidad total de proyectos.
+2. **Ejecutar proyectos.** Ejecutar, a lo sumo, los **K proyectos más prioritarios** siempre que la suma de costos no supere un presupuesto **D**. Si el siguiente proyecto no entra en el presupuesto, se detiene. Retorna los nombres de los proyectos ejecutados. **O(K · log n) peor caso**, n = proyectos sin ejecutar.
+3. **Listado de proyectos y encargados.** Listar los nombres de los proyectos con sus encargados, **ordenado por costo**. **O(n) peor caso**, n = cantidad total de proyectos.
+4. **Proyectos de un encargado.** Dado el nombre de un encargado (se asume único), retornar la lista de sus proyectos. **O(1) caso promedio**.
 
 **Se solicita:** realizar un boceto de la solución y justificar los tiempos; indicar en C++ los tipos de las estructuras elegidas; implementar la operación 2: `retornoNombres ejecutarKProyectosMasPrioritarios(int K, int D)`.
 
-<div class="text-xs opacity-70 mt-1">✏️ Corregido respecto al original: decía "ordenado por <b>precio</b>" (el proyecto tiene <b>costo</b>); no definía n en la operación 1 ni qué hacer si un proyecto no entra en el presupuesto; "retornar un listado" en O(1) solo es posible devolviendo la lista ya guardada, no una copia.</div>
 
 </Letra>
 
