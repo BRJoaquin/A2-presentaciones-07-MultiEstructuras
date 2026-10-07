@@ -1,6 +1,6 @@
 ---
 theme: seriph
-background: https://cover.sli.dev
+background: https://cdn.jsdelivr.net/gh/slidevjs/slidev-covers@main/static/USaWamPDqZ0.webp
 title: Multiestructuras
 info: |
   ## Multiestructuras
