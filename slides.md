@@ -123,22 +123,24 @@ Entonces... ¿por qué elegir una sola? 💡
 </v-click>
 
 ---
+zoom: 0.85
+---
 
 # Repaso de costos
 
-Todo lo que vimos en el curso. Si no se aclara, es peor caso; **cp** = caso promedio.
+Todo lo que vimos en el curso. **cp** = caso promedio · **pc** = peor caso. Si hay un solo orden, vale para los dos.
 
 <div class="text-sm">
 
 | | buscar | insertar | eliminar | mín / máx | listar ordenado |
 | --- | --- | --- | --- | --- | --- |
-| **Array** (por posición) | O(n) · O(1) por posición | O(1) al final | O(n) | O(n) | O(n log n) |
+| **Array** (por posición) | O(n); por posición, O(1) | O(1) al final | O(n) | O(n) | O(n log n) |
 | **Array indexado** (clave 0..K) | O(1) | O(1) | O(1) | O(K) | O(K) |
 | **Lista** (simple / doble) | O(n) | O(1) al principio | O(n) | O(n) | O(n log n) |
-| **ABB** | O(log n) cp · O(n) | O(log n) cp · O(n) | O(log n) cp · O(n) | O(log n) cp · O(n) | O(n) |
+| **ABB** | O(log n) cp · O(n) pc | O(log n) cp · O(n) pc | O(log n) cp · O(n) pc | O(log n) cp · O(n) pc | O(n) |
 | **AVL** | O(log n) | O(log n) | O(log n) | O(log n) | **O(n)** |
-| **Heap** (de máx) | O(n) | O(1) cp · O(log n) | sacar el máx: O(log n) | máx: **O(1)** | O(n log n) |
-| **Hash** (abierto / cerrado) | **O(1) cp** · O(n) | O(1) cp · O(n) | O(1) cp · O(n) | O(n) | O(n log n) |
+| **Heap** (de máx) | O(n) | O(1) cp · O(log n) pc | sacar el máx: O(log n) | máx: **O(1)** | O(n log n) |
+| **Hash** (abierto / cerrado) | **O(1) cp** · O(n) pc | O(1) cp · O(n) pc | O(1) cp · O(n) pc | O(n) | O(n log n) |
 
 </div>
 
@@ -146,25 +148,6 @@ Todo lo que vimos en el curso. Si no se aclara, es peor caso; **cp** = caso prom
 Hacer notar la fila del "array indexado por clave acotada": no siempre se nombra como estructura,
 pero es muy útil cuando la clave es un entero chico (edad, nota, número de figurita, categoría).
 -->
-
----
-
-# Repaso de costos: grafos
-
-V = vértices · A = aristas
-
-| | ¿existe la arista u→v? | adyacentes de v | agregar arista | memoria | recorrer (BFS / DFS) |
-| --- | --- | --- | --- | --- | --- |
-| **Lista de adyacencia** | O(grado(u)) | O(grado(v)) | O(1) | O(V + A) | O(V + A) |
-| **Matriz de adyacencia** | **O(1)** | O(V) | O(1) | O(V²) | O(V²) |
-
-<br>
-
-<v-click>
-
-Y los algoritmos se apoyan en las otras estructuras: **Dijkstra** y **Prim** usan un **heap**; **Kruskal**, un **MFSet**; el **orden topológico**, una **cola**.
-
-</v-click>
 
 ---
 
@@ -195,8 +178,8 @@ Una guía para pensar qué estructura puede servir, según lo que pide la letra.
 - 📋 **"listar ordenado por X"** → AVL por X
 - 📏 **"los que están entre A y B"** → AVL
 - 🗂️ **"los de la categoría X"** → array o hash de estructuras
-- 🕸️ **"conexiones", "rutas", "dependencias"** → grafo
-- 🧩 **"¿están en el mismo grupo?"** → MFSet
+- ⏭️ **"el siguiente / el anterior a X"** → AVL
+- 🧮 **"¿cuántos hay de X?"** → un contador que se actualiza en cada operación
 
 </v-clicks>
 
@@ -363,7 +346,6 @@ Lo que hicimos en el Ranking FIFA aparece seguido: **hash `T → int`** + **arra
 <v-clicks>
 
 - Le da un **número** a cada elemento con nombre, y permite volver del número al elemento.
-- En **grafos**: los vértices tienen nombre, pero los algoritmos trabajan con `0..V-1`.
 - En **heaps**: guardar en qué posición del heap está cada elemento, para encontrarlo en O(1).
 
 </v-clicks>
